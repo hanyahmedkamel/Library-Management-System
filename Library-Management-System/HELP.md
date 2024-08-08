@@ -1,32 +1,254 @@
-# Read Me First
-The following was discovered as part of building this project:
+Documentation for Library Management System
+1. Running the Application
+To run the Library Management System, follow these steps:
 
-* The original package name 'com.Almaamouny.Library Management System' is invalid and this project uses 'com.Almaamouny.Library.Management.System' instead.
+Prerequisites:
 
-# Getting Started
+Java 17 or later: Ensure you have JDK 17 or later installed.
+Maven: Use Apache Maven for building the application.
+Steps to Run:
 
-### Reference Documentation
-For further reference, please consider the following sections:
+Clone the Repository:
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.3.2/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.3.2/maven-plugin/build-image.html)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/3.3.2/reference/htmlsingle/index.html#data.sql.jpa-and-spring-data)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/3.3.2/reference/htmlsingle/index.html#web)
+bash
+Copy code
+git clone https://github.com/your-repo/library-management-system.git
+cd library-management-system
+Build the Application:
 
-### Guides
-The following guides illustrate how to use some features concretely:
+bash
+Copy code
+mvn clean install
+Run the Application:
 
-* [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
+bash
+Copy code
+mvn spring-boot:run
+Alternatively, you can run the application directly from your IDE by running the main method in the LibraryManagementSystemApplication class.
 
-### Maven Parent overrides
+Access the Application:
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+The application will start on http://localhost:8080 by default. You can access the API endpoints via this base URL.
 
+2. Interacting with API Endpoints
+The application provides several API endpoints to manage books, patrons, and borrowing records. Here’s a summary of the available endpoints:
+
+Base URL: http://localhost:8080
+
+Books
+Get All Books:
+
+http
+Copy code
+GET /api/books
+Get Book by ID:
+
+http
+Copy code
+GET /api/books/{id}
+Path Parameter:
+id - The ID of the book.
+Add a New Book:
+
+http
+Copy code
+POST /api/books
+Request Body:
+json
+Copy code
+{
+  "title": "Book Title",
+  "author": "Author Name",
+  "publicationYear": 2024,
+  "isbn": "1234567890",
+  "available": true
+}
+Update Book Details:
+
+http
+Copy code
+PUT /api/books/{id}
+Path Parameter:
+
+id - The ID of the book.
+Request Body:
+
+json
+Copy code
+{
+  "title": "Updated Title",
+  "author": "Updated Author",
+  "publicationYear": 2024,
+  "isbn": "0987654321",
+  "available": false
+}
+Delete a Book:
+
+http
+Copy code
+DELETE /api/books/{id}
+Path Parameter:
+id - The ID of the book to delete.
+Patrons
+Get All Patrons:
+
+http
+Copy code
+GET /api/patrons
+Get Patron by ID:
+
+http
+Copy code
+GET /api/patrons/{id}
+Path Parameter:
+id - The ID of the patron.
+Add a New Patron:
+
+http
+Copy code
+POST /api/patrons
+Request Body:
+json
+Copy code
+{
+  "name": "Patron Name",
+  "email": "patron@example.com",
+  "phoneNumber": "1234567890",
+  "password": "password123"
+}
+Update Patron Details:
+
+http
+Copy code
+PUT /api/patrons/{id}
+Path Parameter:
+
+id - The ID of the patron.
+Request Body:
+
+json
+Copy code
+{
+  "name": "Updated Name",
+  "email": "updated@example.com",
+  "phoneNumber": "0987654321"
+}
+Delete a Patron:
+
+http
+Copy code
+DELETE /api/patrons/{id}
+Path Parameter:
+id - The ID of the patron to delete.
+Borrowing Records
+Get All Borrowing Records:
+
+http
+Copy code
+GET /api/borrowings
+Get Borrowing Record by ID:
+
+http
+Copy code
+GET /api/borrowings/{id}
+Path Parameter:
+id - The ID of the borrowing record.
+Add a New Borrowing Record:
+
+http
+Copy code
+POST /api/borrowings
+Request Body:
+json
+Copy code
+{
+  "patronId": 1,
+  "bookId": 1,
+  "borrowDate": "2024-08-01",
+  "returnDate": "2024-08-15"
+}
+Update Borrowing Record Details:
+
+http
+Copy code
+PUT /api/borrowings/{id}
+Path Parameter:
+
+id - The ID of the borrowing record.
+Request Body:
+
+json
+Copy code
+{
+  "patronId": 1,
+  "bookId": 1,
+  "borrowDate": "2024-08-01",
+  "returnDate": "2024-08-20"
+}
+Delete a Borrowing Record:
+
+http
+Copy code
+DELETE /api/borrowings/{id}
+Path Parameter:
+id - The ID of the borrowing record to delete.
+3. Authentication
+If JWT-based authentication is implemented:
+
+Obtain a JWT Token:
+
+http
+Copy code
+POST /api/authenticate
+Request Body:
+
+json
+Copy code
+{
+  "username": "your-username",
+  "password": "your-password"
+}
+Response:
+
+json
+Copy code
+{
+  "token": "your-jwt-token"
+}
+Use JWT Token to Access Protected Endpoints:
+
+Include the Authorization header in your requests:
+
+http
+Copy code
+Authorization: Bearer your-jwt-token
+Example for getting all books:
+
+http
+Copy code
+GET /api/books
+Authorization: Bearer your-jwt-token
+4. Running Unit Tests
+To ensure your application behaves as expected:
+
+Run Unit Tests:
+
+Using Maven:
+
+bash
+Copy code
+mvn test
+Using Gradle:
+
+bash
+Copy code
+gradle test
+Verify Test Results:
+Ensure all tests pass and review any failures to fix issues.
+
+5. Further Documentation
+For additional information, you may need to document:
+
+Error Handling: Describe the format and types of error responses.
+Data Models: Include details about data models and their fields.
+Integration with Other Services: Provide details on how to integrate with external services or APIs if applicable.
